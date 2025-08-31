@@ -3,18 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Магазин баллов - Алгоритмика</title>
+    <title>Алгоритмика - Школа программирования в Грозном</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #4e73df;
-            --secondary: #6f42c1;
-            --success: #1cc88a;
-            --warning: #f6c23e;
-            --danger: #e74a3b;
-            --light: #f8f9fc;
-            --dark: #5a5c69;
-        }
-        
+        /* Базовые стили и сброс */
         * {
             margin: 0;
             padding: 0;
@@ -22,9 +14,20 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        :root {
+            --primary: #4e73df;
+            --secondary: #6f42c1;
+            --accent: #1cc88a;
+            --warning: #f6c23e;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+            --text: #333;
+            --text-light: #858796;
+        }
+        
         body {
-            background-color: #f8f9fc;
-            color: #333;
+            background-color: var(--light);
+            color: var(--text);
             line-height: 1.6;
         }
         
@@ -34,7 +37,7 @@
             padding: 0 15px;
         }
         
-        /* Header Styles */
+        /* Шапка сайта */
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
@@ -52,520 +55,853 @@
         }
         
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .logo-text {
             font-size: 24px;
             font-weight: bold;
+        }
+        
+        /* Навигация */
+        nav ul {
             display: flex;
-            align-items: center;
-        }
-        
-        .logo i {
-            margin-right: 10px;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .points-badge {
-            background: var(--warning);
-            color: #333;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        
-        /* Main Content */
-        .main-content {
-            display: flex;
-            margin-top: 20px;
+            list-style: none;
             gap: 20px;
         }
         
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            height: fit-content;
-        }
-        
-        .sidebar h3 {
-            margin-bottom: 15px;
-            color: var(--dark);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-        
-        .filters label {
-            display: block;
-            margin: 10px 0 5px;
+        nav a {
+            color: white;
+            text-decoration: none;
             font-weight: 500;
-        }
-        
-        .filters input, .filters select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
+            transition: all 0.3s;
+            padding: 5px 10px;
             border-radius: 4px;
-            margin-bottom: 10px;
         }
         
-        /* Products Grid */
-        .products {
-            flex: 1;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
         
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
         
-        .product-card:hover {
-            transform: translateY(-5px);
+        /* Герой секция */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80') no-repeat center center;
+            background-size: cover;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #17a673;
+            transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .product-image {
-            height: 180px;
-            background-color: #f1f1f1;
+        /* Секции */
+        section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* О нас */
+        .about-content {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Курсы */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-image {
+            height: 200px;
             overflow: hidden;
         }
         
-        .product-image img {
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .course-card:hover .course-image img {
+            transform: scale(1.1);
+        }
+        
+        .course-info {
+            padding: 20px;
+        }
+        
+        .course-info h3 {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .course-info p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Преподаватели */
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .teacher-card {
+            background: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .teacher-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            border: 5px solid var(--light);
+        }
+        
+        .teacher-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        .product-info {
-            padding: 15px;
+        .teacher-card h3 {
+            margin-bottom: 5px;
+            color: var(--dark);
         }
         
-        .product-title {
-            font-weight: 600;
-            margin-bottom: 8px;
+        .teacher-card p {
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        
+        /* Отзывы */
+        .testimonials {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .testimonials .section-title h2 {
+            color: white;
+        }
+        
+        .testimonials .section-title p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .testimonial-text {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        /* Контакты */
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .contact-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             font-size: 16px;
         }
         
-        .product-description {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 15px;
-            height: 40px;
-            overflow: hidden;
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
         }
         
-        .product-price {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* Футер */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
         }
         
-        .points {
-            color: var(--primary);
-            font-weight: bold;
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
             font-size: 18px;
         }
         
-        .buy-btn {
-            background: var(--primary);
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
             color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.3s;
         }
         
-        .buy-btn:hover {
-            background: var(--secondary);
-        }
-        
-        .buy-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .modal-header {
+        .social-links {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-top: 20px;
         }
         
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
         }
         
-        .modal-body {
-            margin-bottom: 20px;
-        }
-        
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
-        /* Footer */
-        footer {
-            background: white;
-            padding: 20px 0;
-            margin-top: 40px;
+        .copyright {
             text-align: center;
-            color: #666;
-            border-top: 1px solid #eee;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
         }
         
-        /* Responsive */
-        @media (max-width: 768px) {
-            .main-content {
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .about-content {
                 flex-direction: column;
             }
             
-            .sidebar {
-                width: 100%;
+            .contact-content {
+                grid-template-columns: 1fr;
             }
             
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-direction: column;
                 gap: 10px;
+                text-align: center;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .desktop-menu {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+                margin-top: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Шапка сайта -->
     <header>
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <i>🎁</i> Магазин баллов "Алгоритмика"
+                    <i class="fas fa-code" style="font-size: 32px;"></i>
+                    <div class="logo-text">Алгоритмика Грозный</div>
                 </div>
-                <div class="user-info">
-                    <span>Иван Петров</span>
-                    <div class="points-badge">
-                        <i>⭐</i> <span id="user-points">350</span> баллов
-                    </div>
-                    <button id="logout-btn">Выйти</button>
-                </div>
+                
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="desktop-menu">
+                    <ul>
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#courses">Курсы</a></li>
+                        <li><a href="#teachers">Преподаватели</a></li>
+                        <li><a href="#reviews">Отзывы</a></li>
+                        <li><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
             </div>
+            
+            <nav class="mobile-menu" style="display: none;">
+                <ul>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#courses">Курсы</a></li>
+                    <li><a href="#teachers">Преподаватели</a></li>
+                    <li><a href="#reviews">Отзывы</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <div class="container">
-        <div class="main-content">
-            <aside class="sidebar">
-                <h3>Фильтры</h3>
-                <div class="filters">
-                    <label for="category">Категория</label>
-                    <select id="category">
-                        <option value="all">Все категории</option>
-                        <option value="toys">Игрушки</option>
-                        <option value="books">Книги</option>
-                        <option value="electronics">Электроника</option>
-                        <option value="certificates">Сертификаты</option>
-                    </select>
-                    
-                    <label for="min-points">Минимальное кол-во баллов</label>
-                    <input type="number" id="min-points" min="0" placeholder="0">
-                    
-                    <label for="max-points">Максимальное кол-во баллов</label>
-                    <input type="number" id="max-points" min="0" placeholder="1000">
-                    
-                    <button id="apply-filters" class="buy-btn">Применить</button>
-                    <button id="reset-filters" style="background: var(--danger); margin-top: 10px;">Сбросить</button>
-                </div>
-            </aside>
-
-            <main class="products" id="products-grid">
-                <!-- Products will be loaded here by JavaScript -->
-            </main>
+    <!-- Герой секция -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Школа программирования для детей в Грозном</h1>
+                <p>Обучаем детей программированию в увлекательной игровой форме. Развиваем логическое мышление и творческие способности!</p>
+                <a href="#courses" class="btn">Выбрать курс</a>
+            </div>
         </div>
-    </div>
+    </section>
 
+    <!-- О нас -->
+    <section id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>О нашей школе</h2>
+                <p>Мы помогаем детям освоить цифровые технологии и развить навыки, которые будут востребованы в будущем</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Алгоритмика — международная школа программирования для детей, которая помогает ребятам освоить основы и продвинутые концепции программирования в увлекательной форме.</p>
+                    <p>Наша методика обучения сочетает в себе игровой подход, проектную работу и развитие практических навыков. Мы учим детей не просто писать код, а мыслить логически и творчески подходить к решению задач.</p>
+                    <p>В нашей школе в Грозном мы создали современное образовательное пространство, где дети чувствуют себя комфортно и могут полностью погрузиться в мир IT-технологий.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Дети на занятии в Алгоритмике">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Курсы -->
+    <section id="courses" style="background: #f9f9f9;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наши курсы</h2>
+                <p>Выберите подходящий курс программирования для вашего ребенка</p>
+            </div>
+            
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Основы программирования">
+                    </div>
+                    <div class="course-info">
+                        <h3>Основы программирования</h3>
+                        <p>Курс для начинающих, где дети знакомятся с базовыми понятиями программирования через создание игр и анимаций.</p>
+                        <div class="course-meta">
+                            <span>8-12 лет</span>
+                            <span>32 занятия</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Создание игр">
+                    </div>
+                    <div class="course-info">
+                        <h3>Создание игр на Python</h3>
+                        <p>Ребята научатся создавать собственные игры на одном из самых популярных языков программирования.</p>
+                        <div class="course-meta">
+                            <span>12-14 лет</span>
+                            <span>36 занятий</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-image">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Веб-разработка">
+                    </div>
+                    <div class="course-info">
+                        <h3>Веб-разработка</h3>
+                        <p>Курс по созданию сайтов с использованием HTML, CSS и JavaScript. Идеально для творческих подростков.</p>
+                        <div class="course-meta">
+                            <span>14-17 лет</span>
+                            <span>40 занятий</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преподаватели -->
+    <section id="teachers">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наши преподаватели</h2>
+                <p>Опытные педагоги с профессиональным подходом к обучению детей</p>
+            </div>
+            
+            <div class="teachers-grid">
+                <div class="teacher-card">
+                    <div class="teacher-image">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Али Магомедов">
+                    </div>
+                    <h3>Али Магомедов</h3>
+                    <p>Преподаватель Python</p>
+                    <p>Опыт работы: 5 лет</p>
+                </div>
+                
+                <div class="teacher-card">
+                    <div class="teacher-image">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Марина Исаева">
+                    </div>
+                    <h3>Марина Исаева</h3>
+                    <p>Преподаватель основ программирования</p>
+                    <p>Опыт работы: 4 года</p>
+                </div>
+                
+                <div class="teacher-card">
+                    <div class="teacher-image">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Ислам Бетерсултанов">
+                    </div>
+                    <h3>Ислам Бетерсултанов</h3>
+                    <p>Преподаватель веб-разработки</p>
+                    <p>Опыт работы: 6 лет</p>
+                </div>
+                
+                <div class="teacher-card">
+                    <div class="teacher-image">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Амина Садулаева">
+                    </div>
+                    <h3>Амина Садулаева</h3>
+                    <p>Преподаватель геймдизайна</p>
+                    <p>Опыт работы: 3 года</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section id="reviews" class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Отзывы родителей</h2>
+                <p>Что говорят родители наших учеников</p>
+            </div>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Мой сын с большим удовольствием ходит на занятия. За полгода обучения он не только освоил основы программирования, но и начал самостоятельно создавать небольшие игры."
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Залина">
+                        <div class="author-info">
+                            <h4>Залина</h4>
+                            <p>Мама Арсена (10 лет)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Дочь всегда с нетерпением ждет занятий в Алгоритмике. Преподаватели умеют заинтересовать детей и объясняют сложные понятия простым языком. Результаты впечатляют!"
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Руслан">
+                        <div class="author-info">
+                            <h4>Руслан</h4>
+                            <p>Папа Амины (12 лет)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Отличная школа с современным подходом к обучению. Ребенок не только учится программировать, но и развивает логическое мышление, учится решать сложные задачи."
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db1604?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Лейла">
+                        <div class="author-info">
+                            <h4>Лейла</h4>
+                            <p>Мама Магомеда (14 лет)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section id="contacts">
+        <div class="container">
+            <div class="section-title">
+                <h2>Контакты</h2>
+                <p>Свяжитесь с нами для записи на пробное занятие</p>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h3>Адрес</h3>
+                            <p>г. Грозный, ул. Маяковского, 123</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div>
+                            <h3>Телефон</h3>
+                            <p>+7 (8712) 12-34-56</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>grozny@algoritmika.org</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h3>Время работы</h3>
+                            <p>Пн-Пт: 9:00 - 20:00<br>Сб-Вс: 10:00 - 18:00</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Отправить сообщение</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
     <footer>
         <div class="container">
-            <p>© 2023 Магазин баллов "Алгоритмика". Все права защищены.</p>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Алгоритмика Грозный</h3>
+                    <p>Международная школа программирования для детей. Обучаем детей создавать собственные проекты и готовим к профессиям будущего.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Курсы</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Основы программирования</a></li>
+                        <li><a href="#">Создание игр на Python</a></li>
+                        <li><a href="#">Веб-разработка</a></li>
+                        <li><a href="#">Мобильные приложения</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Полезные ссылки</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Расписание занятий</a></li>
+                        <li><a href="#">Стоимость обучения</a></li>
+                        <li><a href="#">Частые вопросы</a></li>
+                        <li><a href="#">Блог</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Контакты</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> г. Грозный, ул. Маяковского, 123</li>
+                        <li><i class="fas fa-phone"></i> +7 (8712) 12-34-56</li>
+                        <li><i class="fas fa-envelope"></i> grozny@algoritmika.org</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2023 Алгоритмика Грозный. Все права защищены.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- Purchase Modal -->
-    <div class="modal" id="purchase-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Подтверждение покупки</h2>
-                <button class="close-btn">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Вы уверены, что хотите купить <span id="modal-product-name"></span>?</p>
-                <p>Стоимость: <span id="modal-product-points" class="points"></span> баллов</p>
-                <p>У вас останется: <span id="modal-remaining-points" class="points"></span> баллов</p>
-            </div>
-            <div class="modal-footer">
-                <button id="confirm-purchase" class="buy-btn">Купить</button>
-                <button id="cancel-purchase" style="background: var(--danger);">Отмена</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Sample product data
-        const products = [
-            {
-                id: 1,
-                name: "Конструктор LEGO",
-                description: "Набор для творческого конструирования",
-                points: 100,
-                category: "toys",
-                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5%22%3ELEGO%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-            },
-            {
-                id: 2,
-                name: "Книга по программированию",
-                description: "Интересное руководство для начинающих",
-                points: 70,
-                category: "books",
-                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2268.4296875%22%20y%3D%22104.5%22%3EКнига%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-            },
-            {
-                id: 3,
-                name: "Наушники",
-                description: "Качественные беспроводные наушники",
-                points: 250,
-                category: "electronics",
-                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.4296875%22%20y%3D%22104.5%22%3EНаушники%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-            },
-            {
-                id: 4,
-                name: "Сертификат в кино",
-                description: "Билет в кинотеатр на любой фильм",
-                points: 120,
-                category: "certificates",
-                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.4296875%22%20y%3D%22104.5%22%3EСертификат%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-            },
-            {
-                id: 5,
-                name: "Набор фломастеров",
-                description: "Яркие фломастеры для творчества",
-                points: 50,
-                category: "toys",
-                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2258.4296875%22%20y%3D%22104.5%22%3EФломастеры%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-            },
-            {
-                id: 6,
-                name: "Футболка с логотипом",
-                description: "Стильная футболка с логотипом Алгоритмики",
-                points: 150,
-                category: "toys",
-                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.4296875%22%20y%3D%22104.5%22%3EФутболка%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
-            }
-        ];
-
-        // User data
-        let user = {
-            name: "Иван Петров",
-            points: 350
-        };
-
-        // DOM elements
-        const productsGrid = document.getElementById('products-grid');
-        const userPointsElement = document.getElementById('user-points');
-        const modal = document.getElementById('purchase-modal');
-        const modalProductName = document.getElementById('modal-product-name');
-        const modalProductPoints = document.getElementById('modal-product-points');
-        const modalRemainingPoints = document.getElementById('modal-remaining-points');
-        const confirmPurchaseBtn = document.getElementById('confirm-purchase');
-        const cancelPurchaseBtn = document.getElementById('cancel-purchase');
-        const closeModalBtn = document.querySelector('.close-btn');
-        const applyFiltersBtn = document.getElementById('apply-filters');
-        const resetFiltersBtn = document.getElementById('reset-filters');
-        const logoutBtn = document.getElementById('logout-btn');
-
-        // Current selected product for purchase
-        let selectedProduct = null;
-
-        // Initialize the page
-        function init() {
-            displayProducts(products);
-            updateUserPoints();
-            setupEventListeners();
-        }
-
-        // Display products in the grid
-        function displayProducts(productsToShow) {
-            productsGrid.innerHTML = '';
-            
-            productsToShow.forEach(product => {
-                const canBuy = user.points >= product.points;
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        // Плавная прокрутка
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
                 
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.innerHTML = `
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <p class="product-description">${product.description}</p>
-                        <div class="product-price">
-                            <span class="points">${product.points} баллов</span>
-                            <button class="buy-btn" data-id="${product.id}" ${!canBuy ? 'disabled' : ''}>
-                                ${canBuy ? 'Купить' : 'Недостаточно баллов'}
-                            </button>
-                        </div>
-                    </div>
-                `;
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
                 
-                productsGrid.appendChild(productCard);
-            });
-            
-            // Add event listeners to buy buttons
-            document.querySelectorAll('.buy-btn').forEach(btn => {
-                if (!btn.disabled) {
-                    btn.addEventListener('click', function() {
-                        const productId = parseInt(this.getAttribute('data-id'));
-                        openPurchaseModal(productId);
-                    });
-                }
-            });
-        }
-
-        // Update user points display
-        function updateUserPoints() {
-            userPointsElement.textContent = user.points;
-        }
-
-        // Open purchase modal
-        function openPurchaseModal(productId) {
-            selectedProduct = products.find(p => p.id === productId);
-            
-            if (selectedProduct) {
-                modalProductName.textContent = selectedProduct.name;
-                modalProductPoints.textContent = selectedProduct.points;
-                modalRemainingPoints.textContent = user.points - selectedProduct.points;
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
                 
-                modal.style.display = 'flex';
-            }
-        }
-
-        // Close purchase modal
-        function closePurchaseModal() {
-            modal.style.display = 'none';
-            selectedProduct = null;
-        }
-
-        // Process purchase
-        function processPurchase() {
-            if (selectedProduct && user.points >= selectedProduct.points) {
-                user.points -= selectedProduct.points;
-                updateUserPoints();
-                alert(`Вы успешно приобрели "${selectedProduct.name}"!`);
-                closePurchaseModal();
-                displayProducts(products); // Refresh products to update buy buttons
-            }
-        }
-
-        // Apply filters
-        function applyFilters() {
-            const category = document.getElementById('category').value;
-            const minPoints = document.getElementById('min-points').value;
-            const maxPoints = document.getElementById('max-points').value;
-            
-            let filteredProducts = products;
-            
-            // Filter by category
-            if (category !== 'all') {
-                filteredProducts = filteredProducts.filter(product => product.category === category);
-            }
-            
-            // Filter by minimum points
-            if (minPoints) {
-                filteredProducts = filteredProducts.filter(product => product.points >= parseInt(minPoints));
-            }
-            
-            // Filter by maximum points
-            if (maxPoints) {
-                filteredProducts = filteredProducts.filter(product => product.points <= parseInt(maxPoints));
-            }
-            
-            displayProducts(filteredProducts);
-        }
-
-        // Reset filters
-        function resetFilters() {
-            document.getElementById('category').value = 'all';
-            document.getElementById('min-points').value = '';
-            document.getElementById('max-points').value = '';
-            displayProducts(products);
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            confirmPurchaseBtn.addEventListener('click', processPurchase);
-            cancelPurchaseBtn.addEventListener('click', closePurchaseModal);
-            closeModalBtn.addEventListener('click', closePurchaseModal);
-            
-            applyFiltersBtn.addEventListener('click', applyFilters);
-            resetFiltersBtn.addEventListener('click', resetFilters);
-            
-            logoutBtn.addEventListener('click', function() {
-                if (confirm('Вы уверены, что хотите выйти?')) {
-                    alert('Вы вышли из системы');
-                    // In a real app, this would redirect to login page
-                }
+                // Закрываем мобильное меню после клика
+                document.querySelector('.mobile-menu').style.display = 'none';
             });
+        });
+        
+        // Обработка формы
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Close modal when clicking outside
-            window.addEventListener('click', function(event) {
-                if (event.target === modal) {
-                    closePurchaseModal();
-                }
-            });
-        }
-
-        // Initialize the application when page loads
-        document.addEventListener('DOMContentLoaded', init);
+            // В реальном приложении здесь был бы код для отправки данных на сервер
+            alert('Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
+            this.reset();
+        });
     </script>
 </body>
 </html>
