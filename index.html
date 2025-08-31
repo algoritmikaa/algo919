@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин баллов - Алгоритмика</title>
+    <style>
+        :root {
+            --primary: #4e73df;
+            --secondary: #6f42c1;
+            --success: #1cc88a;
+            --warning: #f6c23e;
+            --danger: #e74a3b;
+            --light: #f8f9fc;
+            --dark: #5a5c69;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fc;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .points-badge {
+            background: var(--warning);
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: flex;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            height: fit-content;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+        }
+        
+        .filters label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 500;
+        }
+        
+        .filters input, .filters select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        /* Products Grid */
+        .products {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 180px;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .points {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .buy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        
+        .buy-btn:hover {
+            background: var(--secondary);
+        }
+        
+        .buy-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i>🎁</i> Магазин баллов "Алгоритмика"
+                </div>
+                <div class="user-info">
+                    <span>Иван Петров</span>
+                    <div class="points-badge">
+                        <i>⭐</i> <span id="user-points">350</span> баллов
+                    </div>
+                    <button id="logout-btn">Выйти</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <aside class="sidebar">
+                <h3>Фильтры</h3>
+                <div class="filters">
+                    <label for="category">Категория</label>
+                    <select id="category">
+                        <option value="all">Все категории</option>
+                        <option value="toys">Игрушки</option>
+                        <option value="books">Книги</option>
+                        <option value="electronics">Электроника</option>
+                        <option value="certificates">Сертификаты</option>
+                    </select>
+                    
+                    <label for="min-points">Минимальное кол-во баллов</label>
+                    <input type="number" id="min-points" min="0" placeholder="0">
+                    
+                    <label for="max-points">Максимальное кол-во баллов</label>
+                    <input type="number" id="max-points" min="0" placeholder="1000">
+                    
+                    <button id="apply-filters" class="buy-btn">Применить</button>
+                    <button id="reset-filters" style="background: var(--danger); margin-top: 10px;">Сбросить</button>
+                </div>
+            </aside>
+
+            <main class="products" id="products-grid">
+                <!-- Products will be loaded here by JavaScript -->
+            </main>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 Магазин баллов "Алгоритмика". Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Purchase Modal -->
+    <div class="modal" id="purchase-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Подтверждение покупки</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Вы уверены, что хотите купить <span id="modal-product-name"></span>?</p>
+                <p>Стоимость: <span id="modal-product-points" class="points"></span> баллов</p>
+                <p>У вас останется: <span id="modal-remaining-points" class="points"></span> баллов</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirm-purchase" class="buy-btn">Купить</button>
+                <button id="cancel-purchase" style="background: var(--danger);">Отмена</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Конструктор LEGO",
+                description: "Набор для творческого конструирования",
+                points: 100,
+                category: "toys",
+                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.4296875%22%20y%3D%22104.5%22%3ELEGO%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            },
+            {
+                id: 2,
+                name: "Книга по программированию",
+                description: "Интересное руководство для начинающих",
+                points: 70,
+                category: "books",
+                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2268.4296875%22%20y%3D%22104.5%22%3EКнига%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            },
+            {
+                id: 3,
+                name: "Наушники",
+                description: "Качественные беспроводные наушники",
+                points: 250,
+                category: "electronics",
+                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.4296875%22%20y%3D%22104.5%22%3EНаушники%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            },
+            {
+                id: 4,
+                name: "Сертификат в кино",
+                description: "Билет в кинотеатр на любой фильм",
+                points: 120,
+                category: "certificates",
+                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.4296875%22%20y%3D%22104.5%22%3EСертификат%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            },
+            {
+                id: 5,
+                name: "Набор фломастеров",
+                description: "Яркие фломастеры для творчества",
+                points: 50,
+                category: "toys",
+                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2258.4296875%22%20y%3D%22104.5%22%3EФломастеры%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            },
+            {
+                id: 6,
+                name: "Футболка с логотипом",
+                description: "Стильная футболка с логотипом Алгоритмики",
+                points: 150,
+                category: "toys",
+                image: "data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15e6bfe6c4a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15e6bfe6c4a%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23555%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2262.4296875%22%20y%3D%22104.5%22%3EФутболка%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
+            }
+        ];
+
+        // User data
+        let user = {
+            name: "Иван Петров",
+            points: 350
+        };
+
+        // DOM elements
+        const productsGrid = document.getElementById('products-grid');
+        const userPointsElement = document.getElementById('user-points');
+        const modal = document.getElementById('purchase-modal');
+        const modalProductName = document.getElementById('modal-product-name');
+        const modalProductPoints = document.getElementById('modal-product-points');
+        const modalRemainingPoints = document.getElementById('modal-remaining-points');
+        const confirmPurchaseBtn = document.getElementById('confirm-purchase');
+        const cancelPurchaseBtn = document.getElementById('cancel-purchase');
+        const closeModalBtn = document.querySelector('.close-btn');
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const resetFiltersBtn = document.getElementById('reset-filters');
+        const logoutBtn = document.getElementById('logout-btn');
+
+        // Current selected product for purchase
+        let selectedProduct = null;
+
+        // Initialize the page
+        function init() {
+            displayProducts(products);
+            updateUserPoints();
+            setupEventListeners();
+        }
+
+        // Display products in the grid
+        function displayProducts(productsToShow) {
+            productsGrid.innerHTML = '';
+            
+            productsToShow.forEach(product => {
+                const canBuy = user.points >= product.points;
+                
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">
+                            <span class="points">${product.points} баллов</span>
+                            <button class="buy-btn" data-id="${product.id}" ${!canBuy ? 'disabled' : ''}>
+                                ${canBuy ? 'Купить' : 'Недостаточно баллов'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                productsGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to buy buttons
+            document.querySelectorAll('.buy-btn').forEach(btn => {
+                if (!btn.disabled) {
+                    btn.addEventListener('click', function() {
+                        const productId = parseInt(this.getAttribute('data-id'));
+                        openPurchaseModal(productId);
+                    });
+                }
+            });
+        }
+
+        // Update user points display
+        function updateUserPoints() {
+            userPointsElement.textContent = user.points;
+        }
+
+        // Open purchase modal
+        function openPurchaseModal(productId) {
+            selectedProduct = products.find(p => p.id === productId);
+            
+            if (selectedProduct) {
+                modalProductName.textContent = selectedProduct.name;
+                modalProductPoints.textContent = selectedProduct.points;
+                modalRemainingPoints.textContent = user.points - selectedProduct.points;
+                
+                modal.style.display = 'flex';
+            }
+        }
+
+        // Close purchase modal
+        function closePurchaseModal() {
+            modal.style.display = 'none';
+            selectedProduct = null;
+        }
+
+        // Process purchase
+        function processPurchase() {
+            if (selectedProduct && user.points >= selectedProduct.points) {
+                user.points -= selectedProduct.points;
+                updateUserPoints();
+                alert(`Вы успешно приобрели "${selectedProduct.name}"!`);
+                closePurchaseModal();
+                displayProducts(products); // Refresh products to update buy buttons
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const category = document.getElementById('category').value;
+            const minPoints = document.getElementById('min-points').value;
+            const maxPoints = document.getElementById('max-points').value;
+            
+            let filteredProducts = products;
+            
+            // Filter by category
+            if (category !== 'all') {
+                filteredProducts = filteredProducts.filter(product => product.category === category);
+            }
+            
+            // Filter by minimum points
+            if (minPoints) {
+                filteredProducts = filteredProducts.filter(product => product.points >= parseInt(minPoints));
+            }
+            
+            // Filter by maximum points
+            if (maxPoints) {
+                filteredProducts = filteredProducts.filter(product => product.points <= parseInt(maxPoints));
+            }
+            
+            displayProducts(filteredProducts);
+        }
+
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('category').value = 'all';
+            document.getElementById('min-points').value = '';
+            document.getElementById('max-points').value = '';
+            displayProducts(products);
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            confirmPurchaseBtn.addEventListener('click', processPurchase);
+            cancelPurchaseBtn.addEventListener('click', closePurchaseModal);
+            closeModalBtn.addEventListener('click', closePurchaseModal);
+            
+            applyFiltersBtn.addEventListener('click', applyFilters);
+            resetFiltersBtn.addEventListener('click', resetFilters);
+            
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Вы уверены, что хотите выйти?')) {
+                    alert('Вы вышли из системы');
+                    // In a real app, this would redirect to login page
+                }
+            });
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closePurchaseModal();
+                }
+            });
+        }
+
+        // Initialize the application when page loads
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
